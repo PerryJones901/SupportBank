@@ -7,24 +7,32 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
+
 public class Main {
+
+    private static final Logger LOGGER = LogManager.getLogger();
+
     public static void main(String args[]) throws IOException {
         //Part 1: Reading CSV Files:
         //  List of Transactions
         var listOfTransactions = new ArrayList<String[]>();
 
         //  Reading File and Adding to list
-        FileInputStream fstream = new FileInputStream("Transactions2014.txt");
+        //FileInputStream fstream = new FileInputStream("Transactions2014.txt");
+        FileInputStream fstream = new FileInputStream("DodgyTransactions2015.txt");
         BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
         String strLine;
         int count = 0;
         while ((strLine = br.readLine()) != null)   {
             listOfTransactions.add(strLine.split(","));
-            System.out.println(listOfTransactions.get(count)[0]);
+            //System.out.println(listOfTransactions.get(count)[0]);
             count++;
         }
 
-        listAcc("Todd",listOfTransactions);
+        //listAcc("Todd",listOfTransactions);
         listAll(listOfTransactions);
     }
 
@@ -55,7 +63,14 @@ public class Main {
         for(int i = 1; i < listOfTransactions.size(); i++){
             var fromName = listOfTransactions.get(i)[1];
             var toName = listOfTransactions.get(i)[2];
-            var money = new BigDecimal(listOfTransactions.get(i)[4]);
+            BigDecimal money = new BigDecimal(0);
+            try{
+                money = new BigDecimal(listOfTransactions.get(i)[4]);
+            } catch (NumberFormatException nfe) {
+                //Normal Output: nfe.printStackTrace();
+                LOGGER.error("Failure to parse money to BigDecimal at line: " + i);
+            }
+
             //Initialise (if need be):
             hashMapAccs.putIfAbsent(fromName, new BigDecimal(0));
             hashMapAccs.putIfAbsent(toName, new BigDecimal(0));
