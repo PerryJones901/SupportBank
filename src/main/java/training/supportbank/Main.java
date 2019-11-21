@@ -11,36 +11,68 @@ import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import com.google.gson.*;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
 
 public class Main {
 
+    //--- Logger ---
     private static final Logger LOGGER = LogManager.getLogger();
 
+    //--- Main ---
     public static void main(String args[]) throws IOException {
         //Part 1: Reading CSV Files:
         //  List of Transactions
         var listOfTransactions = new ArrayList<String[]>();
-
-        //  Reading File and Adding to list
-        //FileInputStream fstream = new FileInputStream("Transactions2014.txt");
-        FileInputStream fstream = new FileInputStream("DodgyTransactions2015.txt");
-        BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
-        String strLine;
-        int count = 0;
-        while ((strLine = br.readLine()) != null)   {
-            listOfTransactions.add(strLine.split(","));
-            //System.out.println(listOfTransactions.get(count)[0]);
-            count++;
-        }
-
+        var blah = fromJSONFile("Transactions2013.json");
         //listAcc("Todd",listOfTransactions);
-        listAll(listOfTransactions);
+        //listAll(listOfTransactions);
     }
 
-    //List[Account]:
+    //--- Reading from file Methods ---
+    private ArrayList<String[]> fromCSVFile(String path){
+        var listOfTransactions = new ArrayList<String[]>();
+        FileInputStream fstream;
+        BufferedReader br = new BufferedReader(Reader.nullReader());
+        try{
+            fstream = new FileInputStream(path);
+            br = new BufferedReader(new InputStreamReader(fstream));
+        } catch(FileNotFoundException e){
+            LOGGER.error("Error reading CSV File.");
+        }
+        String strLine;
+        try{
+            while ((strLine = br.readLine()) != null)   {
+                listOfTransactions.add(strLine.split(","));
+            }
+        } catch (IOException e){
+            LOGGER.error("Error reading lines from CSV File.");
+        }
+        return listOfTransactions;
+    }
+
+    private static ArrayList<String[]> fromJSONFile(String path){
+        //Reading JSON files
+        JsonParser parser = new JsonParser();
+        JsonArray a = new JsonArray();
+        try{
+            a = (JsonArray) parser.parse(new FileReader("Transactions2013.json"));
+        } catch (FileNotFoundException e){
+            LOGGER.error("Error reading JSON file.");
+        }
+        System.out.println(a.get(0));
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        //gsonBuilder.registerTypeAdapter(LocalDate.class, (JsonDeserializer<LocalDate>) (jsonElement, type, jsonDeserializationContext) ->
+        // Convert jsonElement to a LocalDate here...
+        //);
+        Gson gson = gsonBuilder.create();
+        return null;
+    }
+
+    //--- List[Account] ---
     private static void listAcc(String accountName, ArrayList<String[]> listOfTransactions){
         for(int i = 1; i < listOfTransactions.size(); i++) {
 
@@ -59,7 +91,8 @@ public class Main {
             }
         }
     }
-    //List All:
+
+    //--- List All ---
     private static void listAll(ArrayList<String[]> listOfTransactions){
         //Make a HashMap of Accounts
 
@@ -87,6 +120,7 @@ public class Main {
             } catch (DateTimeParseException dtpe) {
                 //dtpe.printStackTrace();
                 LOGGER.error("Failure to parse '" + date +"' at line : " + i);
+
             }
 
 
@@ -97,6 +131,7 @@ public class Main {
             hashMapAccs.put(fromName, hashMapAccs.get(fromName).subtract(money));
             hashMapAccs.put(toName, hashMapAccs.get(toName).add(money));
         }
+
         //Now iterate through the HashMap.
         // Get a set of the entries
         Set set = hashMapAccs.entrySet();
