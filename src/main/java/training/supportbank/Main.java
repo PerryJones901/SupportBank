@@ -5,7 +5,11 @@ import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -61,15 +65,30 @@ public class Main {
 
         var hashMapAccs = new HashMap<String, BigDecimal>();
         for(int i = 1; i < listOfTransactions.size(); i++){
-            var fromName = listOfTransactions.get(i)[1];
-            var toName = listOfTransactions.get(i)[2];
+            var date        = listOfTransactions.get(i)[0];
+            var fromName    = listOfTransactions.get(i)[1];
+            var toName      = listOfTransactions.get(i)[2];
+
+
+            //Check money is in correct format:
             BigDecimal money = new BigDecimal(0);
             try{
                 money = new BigDecimal(listOfTransactions.get(i)[4]);
             } catch (NumberFormatException nfe) {
-                //Normal Output: nfe.printStackTrace();
-                LOGGER.error("Failure to parse money to BigDecimal at line: " + i);
+                //nfe.printStackTrace();
+                LOGGER.error("Failure to parse '" + listOfTransactions.get(i)[4] +
+                        "' to BigDecimal at line: " + i);
             }
+
+            //Check date is in correct format:
+            try{
+                DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDate d = LocalDate.parse(date, format);
+            } catch (DateTimeParseException dtpe) {
+                //dtpe.printStackTrace();
+                LOGGER.error("Failure to parse '" + date +"' at line : " + i);
+            }
+
 
             //Initialise (if need be):
             hashMapAccs.putIfAbsent(fromName, new BigDecimal(0));
