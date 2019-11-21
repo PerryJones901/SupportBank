@@ -65,9 +65,10 @@ public class Main {
         System.out.println(a.get(0));
 
         GsonBuilder gsonBuilder = new GsonBuilder();
-        //gsonBuilder.registerTypeAdapter(LocalDate.class, (JsonDeserializer<LocalDate>) (jsonElement, type, jsonDeserializationContext) ->
-        // Convert jsonElement to a LocalDate here...
-        //);
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        gsonBuilder.registerTypeAdapter(LocalDate.class, (JsonDeserializer<LocalDate>) (jsonElement, type, jsonDeserializationContext) ->
+                //LocalDate.parse(FILL IN, format);
+        );
         Gson gson = gsonBuilder.create();
         return null;
     }
