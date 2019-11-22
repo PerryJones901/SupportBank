@@ -17,4 +17,24 @@ public class Transaction {
         this.narrative = narrative;
         this.amount = amount;
     }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public String getFromAccount() {
+        return fromAccount;
+    }
+
+    public String getToAccount() {
+        return toAccount;
+    }
+
+    public String getNarrative() {
+        return narrative;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
 }

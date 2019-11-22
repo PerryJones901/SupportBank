@@ -23,14 +23,16 @@ public class Main {
 
     //--- Main ---
     public static void main(String args[]) throws IOException {
-        //Part 1: Reading from CSV Files:
-        var bank = new Bank("Softwire Bank");
-        //Take user input:
+
+        //Take user input for file name:
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
 
         //Read the file:
+        ArrayList<Transaction> listOfTransactions = Parser.getParser(input).listOfTransactions(input);
 
+        //Create a bank:
+        var bank = new Bank(listOfTransactions);
 
     }
 
