@@ -23,59 +23,38 @@ public class Main {
 
     //--- Main ---
     public static void main(String args[]) throws IOException {
-        //Part 1: Reading CSV Files:
-        //  List of Transactions
-        //var listOfTransactions = new ArrayList<String[]>();
-        //var blah = fromJSONFile("Transactions2013.json");
-        //listAcc("Todd",listOfTransactions);
-        //listAll(listOfTransactions);
-
         //Part 1: Reading from CSV Files:
         var bank = new Bank("Softwire Bank");
+        //Take user input:
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+
+        //Read the file:
+
 
     }
 
-    //--- Reading from file Methods ---
-    private ArrayList<String[]> fromCSVFile(String path){
-        var listOfTransactions = new ArrayList<String[]>();
-        FileInputStream fstream;
-        BufferedReader br = new BufferedReader(Reader.nullReader());
-        try{
-            fstream = new FileInputStream(path);
-            br = new BufferedReader(new InputStreamReader(fstream));
-        } catch(FileNotFoundException e){
-            LOGGER.error("Error reading CSV File.");
-        }
-        String strLine;
-        try{
-            while ((strLine = br.readLine()) != null)   {
-                listOfTransactions.add(strLine.split(","));
-            }
-        } catch (IOException e){
-            LOGGER.error("Error reading lines from CSV File.");
-        }
-        return listOfTransactions;
-    }
 
-    private static ArrayList<String[]> fromJSONFile(String path){
-        //Reading JSON files
-        JsonParser parser = new JsonParser();
-        JsonArray a = new JsonArray();
-        try{
-            a = (JsonArray) parser.parse(new FileReader("Transactions2013.json"));
-        } catch (FileNotFoundException e){
-            LOGGER.error("Error reading JSON file.");
-        }
-        System.out.println(a.get(0));
 
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        gsonBuilder.registerTypeAdapter(LocalDate.class, (JsonDeserializer<LocalDate>) (jsonElement, type, jsonDeserializationContext) ->
-                LocalDate.parse(jsonElement.getAsString(),format)
-        );
-        Gson gson = gsonBuilder.create();
-        return null;
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //--- List[Account] ---
     private static void listAcc(String accountName, ArrayList<String[]> listOfTransactions){

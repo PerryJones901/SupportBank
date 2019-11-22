@@ -6,7 +6,8 @@ public class Bank {
 
     //Variables
     private String name;
-    private ArrayList<String[]> listOfTransactions;
+    private ArrayList<Transaction> listOfTransactions;
+    private ArrayList<String> bankUsers;
 
     //Constructor
     Bank(String name){
@@ -14,7 +15,7 @@ public class Bank {
     }
 
     //Setters
-    public void setListOfTransactions(ArrayList<String[]> listOfTransactions) {
+    public void setListOfTransactions(ArrayList<Transaction> listOfTransactions) {
         this.listOfTransactions = listOfTransactions;
     }
 }
