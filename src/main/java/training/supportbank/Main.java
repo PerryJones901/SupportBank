@@ -34,6 +34,12 @@ public class Main {
         //Create a bank:
         var bank = new Bank(listOfTransactions);
 
+        //Print all transactions:
+        bank.listAll();
+
+        //Print transactions by name:
+        var name = "Todd";
+        bank.listAcc(name);
     }
 
 

@@ -24,12 +24,18 @@ public class JSONParser implements Parser {
         }
         System.out.println(a.get(0));
 
+        //GsonBuilder Setup
         GsonBuilder gsonBuilder = new GsonBuilder();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         gsonBuilder.registerTypeAdapter(LocalDate.class, (JsonDeserializer<LocalDate>) (jsonElement, type, jsonDeserializationContext) ->
                 LocalDate.parse(jsonElement.getAsString(),format)
         );
         Gson gson = gsonBuilder.create();
+
+        //Plugging into a ArrayList of Transactions:
+        var listOfTransactions = new ArrayList<Transaction>();
+        a.forEach(elem -> listOfTransactions.add(gson.fromJson(elem), Transaction.class));
+
         return null;
     }
 }

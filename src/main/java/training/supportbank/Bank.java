@@ -35,9 +35,22 @@ public class Bank {
         return hashMapAccs;
     }
 
-    public void printTransactionsOf(String name){
-        for (Transaction transaction : listOfTransactions) {
-            
+    public void listAcc(String name){
+        for (Transaction t : listOfTransactions) {
+            if(t.getFromAccount().equals(name))
+                System.out.println(name + " paid " +
+                        t.getToAccount() + " £" + t.getAmount() + " for " + t.getNarrative());
+            if(t.getToAccount().equals(name))
+                System.out.println(t.getFromAccount() + " paid " +
+                        name + " £" + t.getAmount() + " for " + t.getNarrative());
+        }
+    }
+
+    public void listAll(){
+        for (Transaction t : listOfTransactions) {
+            System.out.println("On " + t.getDate() +
+                    " " + t.getFromAccount() + " paid " + t.getToAccount() +
+                    " £" + t.getAmount() + " for " + t.getNarrative() + ".");
         }
     }
 }
