@@ -10,4 +10,11 @@ public class Transaction {
     private String narrative;
     private BigDecimal amount;
 
+    Transaction(LocalDate date, String fromAccount, String toAccount, String narrative, BigDecimal amount){
+        this.date = date;
+        this.fromAccount = fromAccount;
+        this.toAccount = toAccount;
+        this.narrative = narrative;
+        this.amount = amount;
+    }
 }

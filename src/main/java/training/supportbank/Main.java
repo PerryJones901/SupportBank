@@ -25,10 +25,14 @@ public class Main {
     public static void main(String args[]) throws IOException {
         //Part 1: Reading CSV Files:
         //  List of Transactions
-        var listOfTransactions = new ArrayList<String[]>();
-        var blah = fromJSONFile("Transactions2013.json");
+        //var listOfTransactions = new ArrayList<String[]>();
+        //var blah = fromJSONFile("Transactions2013.json");
         //listAcc("Todd",listOfTransactions);
         //listAll(listOfTransactions);
+
+        //Part 1: Reading from CSV Files:
+        var bank = new Bank("Softwire Bank");
+
     }
 
     //--- Reading from file Methods ---
